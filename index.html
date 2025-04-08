@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="A Simple Architecture for Open-Vcaobulary Action Detection and a Weakly-Supervised Training">
+  <meta name="keywords" content="SiA, Action, Video">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scaling Open-Vocabulary Action Detection</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Scaling Open-Vocabulary Action Detection</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/siatheindochinese">Zhen Hao Sia</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.crcv.ucf.edu/person/rawat/">Yogesh Singh Rawat</a><sup>1</sup>,</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Central Florida</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2504.03096"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2504.03096"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://sia_act.github.io"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-virat3">
+          <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/pred_virat3.gif">
+          </div>
+        </div>
+        <div class="item item-smoking">
+		    <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/cctv_smoking.gif">
+          </div>
+        </div>
+        <div class="item item-pistol">
+          <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/pred_assassinate.gif">
+          </div>
+        </div>
+		  <div class="item item-schoolshooter">
+		    <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/pred_school_shooter1.gif">
+          </div>
+        </div>
+		  <div class="item item-atmrobbery">
+		    <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/pred_atmrobbery.gif">
+          </div>
+        </div>
+        <div class="item item-wacv2025elderlycare">
+		    <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/pred_elderlycare.gif">
+          </div>
+        </div>
+		  <div class="item item-babycam">
+		    <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/babycam.gif">
+          </div>
+        </div>
+        <div class="item item-constructionfall">
+		    <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/construction_fall.gif">
+          </div>
+        </div>
+        <div class="item item-officesmash">
+		    <div style="display: flex; justify-content: center; align-items: center; height: 360px; width: auto;">
+            <img src="./static/images/office_smash.gif">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2 class="subtitle has-text-centered">
+        In-the-wild results of our model, <i>SiA</i>.
+        
+  </h2>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            In this work, we focus on scaling open-vocabulary action detection.
+            Existing approaches for action detection are predominantly limited to closed-set scenarios and rely on complex, parameter-heavy architectures.
+            Extending these models to the open-vocabulary setting poses two key challenges:
+            (1) the lack of large-scale datasets with many action classes for robust training,
+            and (2) parameter-heavy adaptations to a pretrained vision-language contrastive model to convert it for detection,
+            risking overfitting the additional non-pretrained parameters to base action classes.
+          </p>
+          <p>
+            Firstly, we introduce an encoder-only multimodal model for video action detection,
+            reducing the reliance on parameter-heavy additions for video action detection.
+          </p>
+          <p>
+            Secondly, we introduce a simple weakly supervised training strategy to exploit an existing closed-set action detection dataset for pretraining.
+          </p>
+          <p>
+          Finally, we depart from the ill-posed base-to-novel benchmark used by prior works in open-vocabulary action detection
+          and devise a new benchmark to evaluate on existing closed-set action detection datasets without ever using them for training,
+          showing novel results to serve as baselines for future work.
+          </p>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: auto;">
+          <img src="./static/images/siaact.png" style="max-width: 100%; height: auto;">
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Model. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Model</h2>
+          <p>
+            Our model is <i>SiA</i>, a <i>si</i>mple <i>a</i>rchitecture for open-vocabulary action detection. Key features:
+          </p>
+          <ul>
+          	<li>Multi-modal (video and text)</li>
+  			   <li>Lightweight, encoder-only design</li>
+  			   <li>End-to-end, single-stage detection</li>
+  			   <li>Open-vocabulary, detect any human action</li>
+          </ul>
+        </div>
+      </div>
+      <!--/ Model. -->
+
+      <!-- WKS. -->
+      <div class="column">
+        <h2 class="title is-3">Training with Weak-Supervision</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              Existing action detection datasets do not have enough actions for training (the largest is AVA/AVA-Kinetics, with only 80 actions).
+              Our weakly-supervised training scheme exploits the Kinetics-700 videos in AVA-Kinetics, allowing more than 700 actions to be used for training,
+              improving the generalizability of our model.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--/ WKS. -->
+
+    <!-- benchmarks. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Benchmarks</h2>
+
+        <!-- open-vocab. -->
+        <h3 class="title is-4">Open-vocabulary results</h3>
+        <div class="content has-text-justified">
+          <p>
+            Given the lack of prior work that has open-vocabulary results on all 4 downstream datasets, we compare our model against a simple training-free baseline,
+            using different video-language models as action classifiers (* denotes only human actions used).
+          </p>
+          <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: auto;">
+            <img src="./static/images/ov.png" style="max-width: 100%; height: auto;">
+          </div>
+        </div>
+        <!--/ open-vocab. -->
+
+        <!-- closed-set. -->
+        <h3 class="title is-4">Closed-set results</h3>
+        <div class="content has-text-justified">
+          <p>
+            We also finetune our model on all 4 downstream datasets to show that it is sufficient for the task of closed-set action detection.
+          </p>
+          <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: auto;">
+            <img src="./static/images/cs.png" style="max-width: 100%; height: auto;">
+          </div>
+        </div>
+        <!--/ closed-set. -->
+
+      </div>
+    </div>
+    <!--/ benchmarks. -->
+
+
+    <!-- Concurrent Work. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Work</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Open-vocabulary action detection is currently an underdeveloped field primarily due to the lack of large-scale datasets with a large number of human actions.
+            Nevertheless, there are a few models in this field:
+          </p>
+          <p>
+            <a href="https://arxiv.org/abs/2304.04688">iCLIP</a> is the first work to extend video action detection to the vision-language domain,
+            by freezing CLIP image and text encoders and introducing external modules to convert them for human action detection.
+          </p>
+          <p>
+            <a href="https://arxiv.org/abs/2411.10922">OpenMixer</a> extends the closed-set action detection model STMixer to the vision-language domain,
+            using a frozen CLIP-VIP video backbone in the AdaMixer-style encoder-decoder architecture.
+          </p>
+          <p>
+            Both models are trained in a base-to-novel manner; UCF-101-24 or JHMDB is used and their videos are split into base actions for training and novel actions for validation.
+            We believe this base-to-novel benchmark hinders generalizability, since less than 20 actions can be used for training in this manner.
+            In contrast, our model has seen more than 700 actions during training.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Concurrent Work. -->
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{sia2025,
+  author    = {Zhen Hao Sia and Yogesh Singh Rawat},
+  title     = {Scaling Open-Vocabulary Action Detection},
+  journal   = {arXiv preprint arXiv:2504.03096},
+  year      = {2025},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
